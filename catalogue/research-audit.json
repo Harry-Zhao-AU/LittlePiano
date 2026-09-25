@@ -1,0 +1,380 @@
+{
+  "screenshot_storage": "OS temp / piano-contents-research; research only, not app assets",
+  "books": [
+    {
+      "book_key": "my-first-a-lesson-en",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Playwright Chromium screenshots and DOM metadata; My First chart screenshots visually transcribed.",
+      "limitation": "Complete page-indexed learning entries from the publisher’s two-page Progress Chart: pieces, exercises, and learning activities. Excludes Writing Book references, audio-only tracks, certificates and reference-library pages.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.com/product/my-first-piano-adventure-lesson-book-a/",
+          "page_title": "My First Piano Adventure® Lesson Book A - Faber Piano Adventures",
+          "screenshot_filename": "_product_my-first-piano-adventure-lesson-book-a_.png",
+          "screenshot_sha256": "6788879d6b40c05a11363cf7a180a75ca146f589ca6fe5f7cdf0427db162ccc1"
+        },
+        {
+          "source_url": "https://pianoadventures.com/wp-content/uploads/sites/13/product_images/FF1619_2.jpg",
+          "page_title": "FF1619_2.jpg (1200×900)",
+          "screenshot_filename": "_wp-content_uploads_sites_13_product_images_FF1619_2.jpg.png",
+          "screenshot_sha256": "10336a28691b4de654845545ac7fef29aebc1c4468dd801feec6241ba7514d72"
+        },
+        {
+          "source_url": "https://pianoadventures.com/wp-content/uploads/sites/13/product_images/FF1619_3.jpg",
+          "page_title": "FF1619_3.jpg (1200×900)",
+          "screenshot_filename": "_wp-content_uploads_sites_13_product_images_FF1619_3.jpg.png",
+          "screenshot_sha256": "2e3971c1cde996a388d3adf2922fab5dc0df68bf1ef11cb8c1b8eb462a0e5386"
+        }
+      ]
+    },
+    {
+      "book_key": "my-first-b-lesson-en",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Playwright Chromium screenshots and DOM metadata; My First chart screenshots visually transcribed.",
+      "limitation": "Complete page-indexed learning entries from the publisher’s two-page Progress Chart: pieces, exercises, and learning activities. Excludes Writing Book references, audio-only tracks, certificates and reference-library pages.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.com/product/my-first-piano-adventure-lesson-book-b/",
+          "page_title": "My First Piano Adventure® Lesson Book B - Faber Piano Adventures",
+          "screenshot_filename": "_product_my-first-piano-adventure-lesson-book-b_.png",
+          "screenshot_sha256": "154995403fa3b39958efee79f4070d0e98a7d1ff518e0d25d6623cdc5100f64f"
+        },
+        {
+          "source_url": "https://pianoadventures.com/wp-content/uploads/sites/13/product_images/FF1621_2.jpg",
+          "page_title": "FF1621_2.jpg (1200×900)",
+          "screenshot_filename": "_wp-content_uploads_sites_13_product_images_FF1621_2.jpg.png",
+          "screenshot_sha256": "c65d144da82dbd97764f0a71be2f31a7cc592ee9efc442e201eff7c90cea379e"
+        },
+        {
+          "source_url": "https://pianoadventures.com/wp-content/uploads/sites/13/product_images/FF1621_3.jpg",
+          "page_title": "FF1621_3.jpg (1200×900)",
+          "screenshot_filename": "_wp-content_uploads_sites_13_product_images_FF1621_3.jpg.png",
+          "screenshot_sha256": "fd0de3912cf62d963334d94a1e94bf2d658031c361c033640b2fd03d873f7c29"
+        }
+      ]
+    },
+    {
+      "book_key": "my-first-c-lesson-en",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Playwright Chromium screenshots and DOM metadata; My First chart screenshots visually transcribed.",
+      "limitation": "Complete page-indexed learning entries from the publisher’s two-page Progress Chart: pieces, exercises, and learning activities. Excludes Writing Book references, audio-only tracks, certificates and reference-library pages.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.com/product/my-first-piano-adventure-lesson-book-c/",
+          "page_title": "My First Piano Adventure® Lesson Book C - Faber Piano Adventures",
+          "screenshot_filename": "_product_my-first-piano-adventure-lesson-book-c_.png",
+          "screenshot_sha256": "2f6e37cddf7c0471fc7301ab96d6a99b497c16b725ccee4895972eb2e3f21045"
+        },
+        {
+          "source_url": "https://pianoadventures.com/wp-content/uploads/sites/13/product_images/FF1623_2.jpg",
+          "page_title": "FF1623_2.jpg (1200×900)",
+          "screenshot_filename": "_wp-content_uploads_sites_13_product_images_FF1623_2.jpg.png",
+          "screenshot_sha256": "0d95a7694a5aa9bf4d2dbfc1b0f4ef3fdb6f026c223051854265c5cd4d8c4b0a"
+        },
+        {
+          "source_url": "https://pianoadventures.com/wp-content/uploads/sites/13/product_images/FF1623_3.jpg",
+          "page_title": "FF1623_3.jpg (1200×900)",
+          "screenshot_filename": "_wp-content_uploads_sites_13_product_images_FF1623_3.jpg.png",
+          "screenshot_sha256": "06f9310270a874abb8b6ec5171802a1dffd930e095963354a8b6ff454fc2010b"
+        }
+      ]
+    },
+    {
+      "book_key": "all-in-two-1-lesson-theory-anglicised",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Family Progress Chart photo visually transcribed and reconciled against earlier publisher research.",
+      "limitation": "Complete learning entries from the family’s photographed Level 1 Lesson & Theory Progress Chart. Paired theory activities remain with their chart entry; standalone theory rows are included. Shared rows with two named pieces are split. Certificate excluded. Exact page numbers remain unknown where the chart gives only a range; ranges are preserved in the review. The photo confirms this contents list, but does not show the cover, ISBN or printing; existing edition metadata is provisional pending a cover/copyright photo.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.co.uk/publications/piano-adventures-level-1-lesson-theory-book/",
+          "page_title": "Piano Adventures® Level 1 Lesson & Theory Book | Piano Adventures United Kingdom",
+          "screenshot_filename": "_publications_piano-adventures-level-1-lesson-theory-book_.png",
+          "screenshot_sha256": "54b110419c4919ad2f6136822e1c89861fdcd35c72b03773becf73b8778840d3"
+        },
+        {
+          "source_url": "https://cloud.pianoadventures.com/products/piano-adventures-level-1-play-along-audio-all-in-two-edition/",
+          "page_title": "Piano Adventures® Level 1 Play-Along Audio (All-in-Two Edition) | Piano Adventures Digital Cloud",
+          "screenshot_filename": "_products_piano-adventures-level-1-play-along-audio-all-in-two-edition_.png",
+          "screenshot_sha256": "479b4ef410618b0d78ef9f6b75b1c0aaced215ab303f4ff16cbb7f553f366173"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p06.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p06.jpg.png",
+          "screenshot_sha256": "828958eaf60865067b571c3d3aa98bcd1e4aff2269a0064cc9dda4a68dca71ad"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p11.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p11.jpg.png",
+          "screenshot_sha256": "171c78d3ff073f7dc166a44073db498d2b8d8130ecba3631510d82625dd51b37"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p15.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p15.jpg.png",
+          "screenshot_sha256": "3bfa5ce4193a0bf13a535afd09905ddea49b7b146be08f36bae81fff4012d93e"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p34.jpg",
+          "page_title": "IEFF8004EA-p34.jpg (864×1152)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p34.jpg.png",
+          "screenshot_sha256": "6b4ae6bf55c92d5c0760397c6b74e7fb696eace6fcedc4caad0b6170c84b2857"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p36.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p36.jpg.png",
+          "screenshot_sha256": "9c8eeab74c5d78d24c93cda1b48bf74759935bfa2fa0af57c222b4d47de76203"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p40.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p40.jpg.png",
+          "screenshot_sha256": "63ca1a3fb24151d9d78875308a928c81c740fff77de1205901ea941110560375"
+        },
+        {
+          "source_url": "urn:little-piano:family-photo:2026-09-25:level-1-lesson-theory:1",
+          "description": "Family-supplied photo: two-page Level 1 Lesson & Theory Progress Chart. Visually transcribed; image not shipped. Cover, ISBN and printing not visible."
+        }
+      ]
+    },
+    {
+      "book_key": "all-in-two-1-technique-performance-anglicised",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Family Progress Chart photo visually transcribed and reconciled against earlier publisher research.",
+      "limitation": "Complete learning entries from the family’s photographed Level 1 Technique & Performance Progress Chart. Includes four Technique Secrets and the Challenge Section; excludes the certificate. Combined named exercises are split for individual assessment (including Up/Down and numbered variants); chart ranges are preserved without guessing individual start pages. Uses the Technique & Performance column, not Lesson & Theory cross-references. Cover, ISBN and printing are not visible; edition metadata remains provisional pending a cover/copyright photo.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.co.uk/publications/piano-adventures-level-1-technique-performance-book/",
+          "page_title": "Piano Adventures® Level 1 Technique & Performance Book | Piano Adventures United Kingdom",
+          "screenshot_filename": "_publications_piano-adventures-level-1-technique-performance-book_.png",
+          "screenshot_sha256": "f03ea54e8aba1aae7f5d7cd181d4d57a4aaee4e42546b913b5521e1c4ede4df6"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p06.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p06.jpg.png",
+          "screenshot_sha256": "828958eaf60865067b571c3d3aa98bcd1e4aff2269a0064cc9dda4a68dca71ad"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/07/IEFF8004EA-p04-secret2.jpg",
+          "page_title": "IEFF8004EA-p04-secret2.jpg (864×447)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_07_IEFF8004EA-p04-secret2.jpg.png",
+          "screenshot_sha256": "4fc7de0042021fba284dccbdd50d4358b9b56b9b6726ba142dfa59aa9d3526b3"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/07/IEFF8004EA-p05-secret3.jpg",
+          "page_title": "IEFF8004EA-p05-secret3.jpg (864×504)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_07_IEFF8004EA-p05-secret3.jpg.png",
+          "screenshot_sha256": "c964b8f45e1c02df9f7d9b0f74d07ac30fe20aed3c36300f9586ec65180fcbef"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8004EA-p11.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8004EA-p11.jpg.png",
+          "screenshot_sha256": "171c78d3ff073f7dc166a44073db498d2b8d8130ecba3631510d82625dd51b37"
+        },
+        {
+          "source_url": "urn:little-piano:family-photo:2026-09-25:level-1-technique-performance:1",
+          "description": "Family-supplied photo: two-page Level 1 Technique & Performance Progress Chart. Visually transcribed; image not shipped. Cover, ISBN and printing not visible."
+        }
+      ]
+    },
+    {
+      "book_key": "all-in-two-2a-lesson-theory-anglicised",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Family Progress Chart photo visually transcribed and reconciled against earlier publisher research.",
+      "limitation": "Complete learning entries from the family’s photographed Level 2A Lesson & Theory Progress Chart. Includes standalone theory and Adventure Scale and Chord Warm-Ups; certificate excluded. Paired theory remains chart context. Named pieces sharing rows are split. The former This Old Man entry now identifies This R.H. Old Man; This L.H. Old Man is added separately. Uses the Lesson & Theory column only. Ranges are retained without guessing exact start pages. Cover, ISBN and printing are not visible; edition metadata remains provisional pending a cover/copyright photo.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.co.uk/publications/piano-adventures-level-2a-lesson-theory-book/",
+          "page_title": "Piano Adventures® Level 2A Lesson & Theory Book | Piano Adventures United Kingdom",
+          "screenshot_filename": "_publications_piano-adventures-level-2a-lesson-theory-book_.png",
+          "screenshot_sha256": "4d132024d6b4ea55ea2e3218fb80aa25f777be1b7c3ff2c15c681ea27442df18"
+        },
+        {
+          "source_url": "https://cloud.pianoadventures.com/products/piano-adventures-level-2a-play-along-audio-all-in-two-edition/",
+          "page_title": "Piano Adventures® Level 2A Play-Along Audio (All-in-Two Edition) | Piano Adventures Digital Cloud",
+          "screenshot_filename": "_products_piano-adventures-level-2a-play-along-audio-all-in-two-edition_.png",
+          "screenshot_sha256": "f070896386fafab87394aa1fc23af41cb3a6b182d006f64155eef3c14aa4432b"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p04.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p04.jpg.png",
+          "screenshot_sha256": "5019dee572f1cf7d2453c6bc096e47b23ddbbc66c449925f2a9639d858242155"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p14.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p14.jpg.png",
+          "screenshot_sha256": "1e7016f3daadefbb09c5c630e0e327d7e2d412193910d3bc3fd7a5bd20cc5bec"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p19.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p19.jpg.png",
+          "screenshot_sha256": "53e0fa3f78291b48831b92535e8787fb23927275480583d388f904f27621fb1a"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p20.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p20.jpg.png",
+          "screenshot_sha256": "cac36b7b1b4c035cadbf3d17e8f8117b8894288c26b5d2f9caa6f8bf6c90643b"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p34.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p34.jpg.png",
+          "screenshot_sha256": "5e71e3a431dab53e7c4984f69469bff0e00eeb4bb4f0bc302136f51159338795"
+        },
+        {
+          "source_url": "urn:little-piano:family-photo:2026-09-25:level-2a-lesson-theory:1",
+          "description": "Family-supplied photo: two-page Level 2A Lesson & Theory Progress Chart. Visually transcribed; image not shipped. Cover, ISBN and printing not visible."
+        }
+      ]
+    },
+    {
+      "book_key": "all-in-two-2a-technique-performance-anglicised",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Family Progress Chart photo visually transcribed and reconciled against earlier publisher research.",
+      "limitation": "All learning rows in the family’s Level 2A Technique & Performance Progress Chart are represented. Includes five Technique Secrets, four Explorer pieces, and both starred scale-reference rows; certificate excluded. Combined named exercises are split. Busy Places spans pages 6–7: its two previously verified page-6 exercises are retained; the chart does not name any further subsections on page 7, so this is chart-level completeness, not verification of every subsection. Uses the Technique & Performance column; ranges do not imply exact start pages. Cover, ISBN and printing remain unconfirmed from this photo.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.co.uk/publications/piano-adventures-level-2a-technique-performance-book/",
+          "page_title": "Piano Adventures® Level 2A Technique & Performance Book | Piano Adventures United Kingdom",
+          "screenshot_filename": "_publications_piano-adventures-level-2a-technique-performance-book_.png",
+          "screenshot_sha256": "836bc9a14961f85d2c057254c5d650ef376412abb04043f8c2c5836ca7ccd6f7"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p04.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p04.jpg.png",
+          "screenshot_sha256": "5019dee572f1cf7d2453c6bc096e47b23ddbbc66c449925f2a9639d858242155"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/07/IEFF8006EA-p05-secret5.jpg",
+          "page_title": "IEFF8006EA-p05-secret5.jpg (864×412)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_07_IEFF8006EA-p05-secret5.jpg.png",
+          "screenshot_sha256": "54dc0629ddd88f32d8cb5df4d669b275467ce2b2fc12d20a1a28d30c36bc7aaf"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p06.jpg",
+          "page_title": "IEFF8006EA-p06.jpg (864×1152)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p06.jpg.png",
+          "screenshot_sha256": "8e31a61387ffb1d1fe93fc1050eba59628e259db730db2b259d18acda81905f1"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2013/06/IEFF8006EA-p34.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2013_06_IEFF8006EA-p34.jpg.png",
+          "screenshot_sha256": "5e71e3a431dab53e7c4984f69469bff0e00eeb4bb4f0bc302136f51159338795"
+        },
+        {
+          "source_url": "urn:little-piano:family-photo:2026-09-25:level-2a-technique-performance:1",
+          "description": "Family-supplied photo: two-page Level 2A Technique & Performance Progress Chart. Visually transcribed; image not shipped. Cover, ISBN and printing not visible."
+        }
+      ]
+    },
+    {
+      "book_key": "all-in-two-2b-lesson-theory-anglicised",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Family Progress Chart photo visually transcribed and reconciled against earlier publisher research.",
+      "limitation": "Complete learning rows from the family’s Level 2B Lesson & Theory Progress Chart. Includes standalone theory and warm-ups; paired theory remains chart context and the certificate is excluded. Uses only the Lesson & Theory column. Camptown Races Duet and Boom Boom! from the earlier audio list are absent from this chart and removed, not renamed as the different printed pieces I’ve Got Peace Like a River and Deep River. Printed ranges are retained without guessing exact start pages. Cover, ISBN and printing remain unconfirmed from this photo.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.co.uk/publications/piano-adventures-level-2b-lesson-theory-book/",
+          "page_title": "Piano Adventures® Level 2B Lesson & Theory Book | Piano Adventures United Kingdom",
+          "screenshot_filename": "_publications_piano-adventures-level-2b-lesson-theory-book_.png",
+          "screenshot_sha256": "d27125cec97148cd2867cf584d970f387cf25bafa443ac10b7e13e5a7477af8f"
+        },
+        {
+          "source_url": "https://cloud.pianoadventures.com/products/piano-adventures-level-2b-play-along-audio-all-in-two-edition/",
+          "page_title": "Piano Adventures® Level 2B Play-Along Audio (All-in-Two Edition) | Piano Adventures Digital Cloud",
+          "screenshot_filename": "_products_piano-adventures-level-2b-play-along-audio-all-in-two-edition_.png",
+          "screenshot_sha256": "e0f0a8f5b9b94a2f3cae1ec976993a0ad90612eb2fc4e82f32b0b4985a68a5e1"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p04.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p04.jpg.png",
+          "screenshot_sha256": "3849702bb929706c9c39471f72661c70d1e16b00f8dd2d90b10ac1f1d8ddead7"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p18.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p18.jpg.png",
+          "screenshot_sha256": "697eb8a81a7cf476b528ed5d147445bfe44386fbfa48956c648afec597d2c3d9"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p20.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p20.jpg.png",
+          "screenshot_sha256": "b8ded44324fc3d9d1ebed3e21276f908fae9b056abf54f8ca94fdd9429b2fe21"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p45.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p45.jpg.png",
+          "screenshot_sha256": "7006c7932b5ac31f77ad3a9973bd8ce8b9910640d3f6ba5f07e8d3190cb55c2b"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p54.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p54.jpg.png",
+          "screenshot_sha256": "eee0949070ffe6b485fa8f2de33353bdf860eaed060c2f0a13dc27b359e0c06e"
+        },
+        {
+          "source_url": "urn:little-piano:family-photo:2026-09-25:level-2b-lesson-theory:1",
+          "description": "Family-supplied photo: two-page Level 2B Lesson & Theory Progress Chart. Visually transcribed; image not shipped. Cover, ISBN and printing not visible."
+        }
+      ]
+    },
+    {
+      "book_key": "all-in-two-2b-technique-performance-anglicised",
+      "status": "verified_complete",
+      "checked_on": "2026-09-25",
+      "method": "Family Progress Chart photo visually transcribed and reconciled against earlier publisher research.",
+      "limitation": "Complete learning entries from the family’s Level 2B Technique & Performance Progress Chart. Includes four Technique Secrets and both starred reference rows; certificate excluded. R.H./L.H. Brush Stroke and Jazz Cat exercises are split. Classic Sonatina is represented by its three named movements, without duplicating the parent heading. Uses only the Technique & Performance page column. Printed ranges are retained without guessing individual start pages. Cover, ISBN and printing are not visible and remain unconfirmed from this photo.",
+      "receipts": [
+        {
+          "source_url": "https://pianoadventures.co.uk/publications/piano-adventures-level-2b-technique-performance-book/",
+          "page_title": "Piano Adventures® Level 2B Technique & Performance Book | Piano Adventures United Kingdom",
+          "screenshot_filename": "_publications_piano-adventures-level-2b-technique-performance-book_.png",
+          "screenshot_sha256": "c3b3063f076b2d265494bb7d05f1d5dceafcd0c1b250263a1531b4991d6c36c6"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p04.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p04.jpg.png",
+          "screenshot_sha256": "3849702bb929706c9c39471f72661c70d1e16b00f8dd2d90b10ac1f1d8ddead7"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p20.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p20.jpg.png",
+          "screenshot_sha256": "b8ded44324fc3d9d1ebed3e21276f908fae9b056abf54f8ca94fdd9429b2fe21"
+        },
+        {
+          "source_url": "https://pianoadventures.co.uk/wp-content/uploads/sites/10/2014/10/IEFF8008EA-p07.jpg",
+          "page_title": "Publisher preview image (visually inspected)",
+          "screenshot_filename": "_wp-content_uploads_sites_10_2014_10_IEFF8008EA-p07.jpg.png",
+          "screenshot_sha256": "1338c5bc75fa6f54934bf49e9ffae4294e54e28c36851b663356b298d3b304ea"
+        },
+        {
+          "source_url": "urn:little-piano:family-photo:2026-09-25:level-2b-technique-performance:1",
+          "description": "Family-supplied photo: two-page Level 2B Technique & Performance Progress Chart. Visually transcribed; image not shipped. Cover, ISBN and printing not visible."
+        }
+      ]
+    }
+  ]
+}
