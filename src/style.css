@@ -10,3 +10,12 @@
 .dimension { padding: 4px 0 12px; border-bottom: 1px solid #e4e8de; margin-bottom: 16px; }
 .history-top { gap: 16px; align-items: flex-start; }
 @media(max-width:560px) { .song-row { flex-wrap: wrap; } .song-row .rating { flex-basis: 100%; margin-left: 40px; } .skill-scores { max-width: 220px; } }
+
+.main-nav{display:flex;gap:12px;padding-top:20px}.main-nav a,.button-link{display:inline-block;padding:12px 20px;min-height:48px;border-radius:12px;text-decoration:none;font-weight:700}.main-nav a[aria-current=page]{background:#e4ecdf}.button-link{background:#365c50;color:white;text-align:center}
+.certificate-preview{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px #253f3715;aspect-ratio:297/210;display:grid;place-items:center}.certificate-preview img{width:100%;display:block}
+.certificate-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:24px 0}.certificate-actions a{padding:12px;min-height:48px}
+.certificate-form{max-width:800px;margin:auto}.certificate-form select{width:100%}.certificate-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.template-options{display:grid;grid-template-columns:1fr 1fr;gap:14px}.template-options button{padding:8px;background:#f5f4eb;color:#365c50;border:3px solid transparent}.template-options button.chosen{border-color:#b78a39;background:#fff3d8}.template-options img{width:100%;display:block;border-radius:6px}.template-options span{display:block;padding:8px}
+.certificate-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.certificate-card{overflow:hidden;background:white;border:1px solid #dce2d9;border-radius:18px;text-decoration:none}.certificate-card>img{display:block;width:100%;aspect-ratio:297/210;object-fit:cover}.certificate-card>div{padding:20px}.certificate-card h2{margin-top:12px;overflow-wrap:anywhere}.certificate-card p{font-size:.85rem}
+@media(max-width:900px){.certificate-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.certificate-grid,.certificate-fields{grid-template-columns:1fr}.main-nav{gap:4px}.main-nav a{padding:12px}.template-options{gap:8px}.template-options button{padding:4px}.template-options span{font-size:.8rem}.certificate-actions>button{flex:1}.page-heading:has(.button-link){flex-direction:column}}

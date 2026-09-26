@@ -132,4 +132,48 @@ await ok('edition correction removes unassessed mismatches and refuses to delete
  assert.equal((await db.query('select id from assessments where id=$1',[ratingId])).rows.length,1)
  assert.equal((await db.query('select title from songs where id=$1',[removedId])).rows[0].title,'Boom Boom!')
 })
+
+await db.exec(await readFile('supabase/migrations/202609260005_certificates.sql','utf8'))
+const certificateId=crypto.randomUUID()
+const awardSQL=`insert into certificates(id,student_id,book_id,song_id,kind,template_id,child_name,title,message,awarded_by,awarded_on)
+ values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning *`
+const award=[certificateId,student,book,null,'book','piano-party','Original name','Book A','','Dad','2026-09-26']
+await ok('parent issues a book certificate despite ratings below three',async()=>{
+ const [saved]=await as('authenticated',A,awardSQL,award);assert.equal(saved.child_name,'Original name')
+ assert.equal((await as('authenticated',A,'select * from certificates')).length,1)
+})
+await denied('duplicate certificate retry rejected',()=>as('authenticated',A,awardSQL,award),'23505')
+await ok('intentional repeat awards allowed',async()=>assert.equal((await as('authenticated',A,awardSQL,[crypto.randomUUID(),...award.slice(1)])).length,1))
+await denied('anonymous cannot read certificates',()=>as('anon',null,'select * from certificates'),'42501')
+await denied('anonymous cannot issue certificates',()=>as('anon',null,awardSQL,[crypto.randomUUID(),...award.slice(1)]),'42501')
+await denied('anonymous cannot delete certificates',()=>as('anon',null,'delete from certificates'),'42501')
+await ok('unrelated account cannot read or delete certificates',async()=>{
+ assert.equal((await as('authenticated',B,'select * from certificates')).length,0)
+ assert.equal((await as('authenticated',B,'delete from certificates returning id')).length,0)
+})
+await denied('unrelated account cannot award another child',()=>as('authenticated',B,awardSQL,[crypto.randomUUID(),...award.slice(1)]),'42501')
+await denied('certificate ownership and snapshot cannot be changed',()=>as('authenticated',A,"update certificates set child_name='Changed'"),'42501')
+await denied('cannot forge server issue timestamp',()=>as('authenticated',A,`insert into certificates(student_id,kind,template_id,child_name,title,awarded_by,awarded_on,created_at) values ($1,'special','little-star','Mia','Effort','Dad','2026-09-26','2099-01-01')`,[student]),'42501')
+await denied('wrong-book song rejected on certificate',()=>as('authenticated',A,awardSQL,[crypto.randomUUID(),student,book,otherSong,'special','little-star','Mia','Effort','','Dad','2026-09-26']),'23503')
+const unselected=id('2a-lesson-us-2')
+await denied('unselected book cannot be forged into certificate',()=>as('authenticated',A,awardSQL,[crypto.randomUUID(),student,unselected,null,'book','piano-party','Mia','Book','','Dad','2026-09-26']))
+await denied('book award requires a book',()=>as('authenticated',A,awardSQL,[crypto.randomUUID(),student,null,null,'book','piano-party','Mia','Book','','Dad','2026-09-26']),'23514')
+await denied('template kind mismatch rejected',()=>as('authenticated',A,awardSQL,[crypto.randomUUID(),student,book,null,'book','little-star','Mia','Book','','Dad','2026-09-26']),'23514')
+await ok('special award without a book and with a song both work',async()=>{
+ for(const refs of [[null,null],[book,song]])await as('authenticated',A,awardSQL,[crypto.randomUUID(),student,...refs,'special','little-star','Mia','Effort','Keep going','Dad','2026-09-26'])
+})
+await ok('issued name snapshot survives profile edits',async()=>{
+ await db.query("update students set display_name='New name' where id=$1",[student])
+ assert.equal((await as('authenticated',A,'select child_name from certificates where id=$1',[certificateId]))[0].child_name,'Original name')
+})
+await ok('certificate table has RLS enabled',async()=>assert.equal((await db.query("select relrowsecurity from pg_class where relname='certificates'")).rows[0].relrowsecurity,true))
+await ok('owner can delete their certificate',async()=>{
+ assert.equal((await as('authenticated',A,'delete from certificates where id=$1 returning id',[certificateId])).length,1)
+ assert.equal((await as('authenticated',A,'select * from certificates where id=$1',[certificateId])).length,0)
+})
+
+await db.exec(await readFile('supabase/migrations/202609260006_awesome_certificate.sql','utf8'))
+await ok('Awesome award is accepted and old template stays valid',async()=>{
+ for(const template of ['awesome','brave-performer'])await as('authenticated',A,awardSQL,[crypto.randomUUID(),student,null,null,'special',template,'Mia','Great effort','','Dad','2026-09-26'])
+})
 await db.close();console.log(`${count} PostgreSQL checks passed. No remote database contacted.`)

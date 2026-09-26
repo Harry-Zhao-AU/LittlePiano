@@ -97,3 +97,47 @@ No deployment has been made. When you instruct deployment: import the repository
 - `catalogue/`: reviewed metadata and coverage notes.
 - `scripts/seed.mjs`: repeatable SQL generator; `supabase/seeds/catalogue.sql`: ready-to-review output.
 - `scripts/test-db.mjs`, `src/lib.test.ts`, `tests/browser/`: isolated verification suites.
+
+## Certificates
+
+Parents can issue book completion certificates at any time, including before any assessments. Special achievements are also parent-controlled. Certificates never alter ratings.
+
+### Enable this update
+
+Apply `supabase/migrations/202609260005_certificates.sql` **once**, after the four existing migrations, using the Supabase SQL Editor (or your normal migration process). No catalogue reseed is needed. This migration adds only the certificates table, constraints, index and owner-scoped policies. Review it before applying; the development work did not apply it remotely.
+
+Then run `npm install` and `npm run dev`. The existing Supabase environment variables and Google login are sufficient. When you later deploy, include the migration, code, package lock and `public/certificates/v1/` assets in the reviewed commit; apply the database migration before publishing the new frontend.
+
+### Manual test checklist
+
+1. Sign in and open a selected book with unassessed songs. Choose **Give completion certificate**. Both templates should be available without any progress requirement.
+2. Enter the issuer under **Awarded by**, check the name/book/date, and preview. Try a long child name and book title; all text should fit inside the intended fields.
+3. Issue the certificate. Refresh: it should still appear in **My Certificates** and retain its original details.
+4. Download the PDF and open it. Check A4 landscape page size, lettering, margins and artwork. Print at actual size or fit to your printer's printable area. **Print** opens a PDF tab with a print request; some mobile PDF viewers require their own Print/Share menu. Allow the new tab, or use Download PDF.
+5. Choose **Issue another**. The existing certificate notice should appear; a deliberate new award should create a second certificate. Rapidly tapping Issue should create only one.
+6. From **My Certificates**, choose **Give an award**. Try both special achievement templates with an award title and message. Test with no book, then with a related book/song.
+7. Test **Delete certificate**, first cancelling, then confirming. Downloaded copies remain on your device.
+8. Sign out: no certificates should be visible. A different Google account should see only its own child's certificates.
+9. Repeat on a phone after deployment (or on a reachable local development server). Confirm navigation, form fields, PDF download and printing.
+
+### Storage, privacy and template maintenance
+
+Issued records store a snapshot of the child's name, title, message, issuer and date. Browser clients cannot update snapshots or ownership; delete and reissue to correct a mistake. A stable UUID makes a retry recover a committed insert without duplicating it. Intentional repeat awards use a new UUID.
+
+The database checks child ownership, selected-book relationships and matching song/book references. It deliberately has no rating eligibility checks. Authenticated owners may select, insert and delete only their own certificates; anonymous access is denied.
+
+Only blank artwork is published under `public/certificates/v1/`. Personalised previews and PDFs are generated in the browser and are not uploaded or publicly shared. Template definitions and field coordinates live in `src/certificates.ts`. Do not replace version-1 assets or coordinates once real awards have been issued: add a new version and migrate the allowed-version constraint when introducing future designs.
+
+The four initial templates are Piano Party, Musical Parchment, You Shine!, and Brave Performer. Original source images remain in `certificate template/`. The renderer overlays “Awarded by” on the two book templates. PDF export uses a 3508 × 2480 raster canvas on an exact 297 × 210 mm page; text is rasterised and not selectable. Artwork retains its original source resolution, so inspect a physical print before ordering professional prints.
+
+### Verification for this feature
+
+- Unit tests validate required fields, dates, template types and filename handling.
+- Local PGlite/PostgreSQL tests apply the migration and exercise owner/anonymous/unrelated-account access, immutable snapshots, repeat awards, forged book/song references and deletion.
+- Browser tests use explicit mocked Supabase fixtures (never a production fallback), covering phone/tablet/desktop issue/reload/download/delete, all four template previews, long text and failed/ambiguous saves.
+- Real Supabase Google login, the deployed PostgREST policies and device-specific printing still need the manual checks above.
+
+
+### Awesome template update
+
+Apply `supabase/migrations/202609260006_awesome_certificate.sql` after migration 005 before issuing Awesome awards. The selector now offers **Awesome** instead of **Brave Performer**. Existing Brave Performer certificates keep their original background and layout; that template is retired from new selections. The approved replacement is saved to `certificate template/special-achievement-brave-performer.png` and published as `public/certificates/v1/special-achievement-awesome.png`. No remote migration was applied during development.

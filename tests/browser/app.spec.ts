@@ -1,12 +1,13 @@
 import { test, expect, type Page } from '@playwright/test'
 const userId='10000000-0000-4000-a000-000000000001'
 async function fixtures(page:Page, options:{signedIn?:boolean;failLoad?:boolean;failSave?:boolean}={}){
- const state:Record<string,any[]>={books:[{id:'book',series:'Piano Adventures',title:'Primer Lesson Book',level:'Primer',book_type:'Lesson',edition:'2nd Edition (US)',language:'English',catalogue_status:'partial'}],songs:[{id:'song',book_id:'book',title:'Test melody',page_number:12,sort_order:1}],students:[],student_books:[],assessments:[],catalogue_sources:[]}
+ const state:Record<string,any[]>={books:[{id:'book',series:'Piano Adventures',title:'Primer Lesson Book',level:'Primer',book_type:'Lesson',edition:'2nd Edition (US)',language:'English',catalogue_status:'partial'}],songs:[{id:'song',book_id:'book',title:'Test melody',page_number:12,sort_order:1}],students:[],student_books:[],assessments:[],catalogue_sources:[],certificates:[]}
  let failSave=options.failSave
  await page.route('https://piano-test.supabase.co/**',async route=>{
   const req=route.request(),url=new URL(req.url()),table=url.pathname.split('/').at(-1)!
   if(url.pathname.includes('/auth/')){await route.fulfill({json:{}});return}
   if(options.failLoad){await route.fulfill({status:400,json:{message:'Test connection unavailable'}});return}
+  if(req.method()==='DELETE'){const id=url.searchParams.get('id')?.replace('eq.','');state[table]=state[table].filter(r=>r.id!==id);await route.fulfill({status:204});return}
   if(req.method()==='POST'){
    if(table==='assessments'&&failSave){failSave=false;await route.fulfill({status:400,json:{message:'Test save failed'}});return}
    const row={id:crypto.randomUUID(),assessed_at:new Date(Date.now()+state.assessments.length*1000).toISOString(),...req.postDataJSON()}
@@ -65,4 +66,72 @@ test('failed save retains draft and can be retried',async({page})=>{
  await page.getByLabel('A little note').fill('Keep going');await page.getByRole('button',{name:'Save this moment'}).click()
  await expect(page.getByRole('alert')).toContainText('Test save failed');await expect(page.getByLabel('A little note')).toHaveValue('Keep going')
  await page.getByRole('button',{name:'Save this moment'}).click();await expect(page.locator('.history li')).toHaveCount(1);expect(state.assessments).toHaveLength(1)
+})
+
+for(const width of [390,768,1280])test(`issue a certificate without ratings, reload, download and delete at ${width}px`,async({page})=>{
+ await page.setViewportSize({width,height:1000});const state=await fixtures(page)
+ state.students.push({id:'student',display_name:'Mia'});state.student_books.push({id:'sb',student_id:'student',book_id:'book'})
+ await page.goto('/?book=sb');await page.getByRole('link',{name:'Give completion certificate'}).click()
+ await page.getByLabel('Awarded by',{exact:true}).fill('Dad')
+ await page.getByRole('button',{name:'Preview certificate',exact:true}).click()
+ await expect(page.getByRole('img',{name:/Certificate for Mia/})).toBeVisible()
+ await page.getByRole('button',{name:'Issue certificate',exact:true}).dblclick()
+ await expect(page.getByRole('button',{name:'Download PDF'})).toBeVisible()
+ expect(state.certificates).toHaveLength(1);expect(state.assessments).toHaveLength(0)
+ await page.reload();await expect(page.getByRole('img',{name:/Certificate for Mia/})).toBeVisible()
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+ await page.screenshot({path:`test-results/certificate-${width}.png`,fullPage:true})
+ const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:'Download PDF'}).click()
+ const download=await downloaded;expect(download.suggestedFilename()).toContain('certificate-Mia')
+ await download.saveAs(`test-results/certificate-${width}.pdf`)
+ await page.getByRole('link',{name:'Issue another',exact:true}).click()
+ await expect(page.getByText(/already has 1 certificate/)).toBeVisible()
+ await page.getByRole('link',{name:'View certificate',exact:true}).click()
+ await page.getByRole('button',{name:'Delete certificate',exact:true}).click()
+ await page.getByRole('button',{name:'Keep certificate'}).click();expect(state.certificates).toHaveLength(1)
+ await page.getByRole('button',{name:'Delete certificate',exact:true}).click();await page.getByRole('button',{name:'Yes, delete certificate'}).click()
+ await expect(page.getByRole('heading',{name:'Your celebrations belong here'})).toBeVisible();expect(state.certificates).toHaveLength(0)
+})
+test('special awards and every template render with long text',async({page})=>{
+ const state=await fixtures(page)
+ state.students.push({id:'student',display_name:'Alexandra Charlotte'});state.student_books.push({id:'sb',student_id:'student',book_id:'book'})
+ await page.goto('/?view=certificates&award=new')
+ await page.getByLabel('Award title',{exact:true}).fill('Beautiful Dynamics and a Confident Performance')
+ await page.getByLabel('A little message').fill('You brought the music to life with your thoughtful playing. We are so proud of your hard work and the joy you share!')
+ await page.getByLabel('Awarded by',{exact:true}).fill('Mum and Dad')
+ await page.getByRole('button',{name:'Preview certificate',exact:true}).click()
+ await expect(page.getByRole('img',{name:/Certificate for Alexandra/})).toBeVisible()
+ await page.locator('.certificate-preview').screenshot({path:'test-results/little-star-preview.png'})
+ await page.getByRole('button',{name:'Edit details'}).click();await page.getByRole('button',{name:'Awesome',exact:true}).click()
+ await page.getByRole('button',{name:'Preview certificate',exact:true}).click()
+ await expect(page.getByRole('img',{name:/Certificate for Alexandra/})).toBeVisible()
+ await page.locator('.certificate-preview').screenshot({path:'test-results/awesome-preview.png'})
+ await page.getByRole('button',{name:'Issue certificate',exact:true}).click()
+ await expect(page.getByRole('button',{name:'Download PDF'})).toBeVisible()
+ expect(state.certificates[0].book_id).toBeNull()
+ await page.goto('/?view=certificates&award=new&kind=book&awardBook=book')
+ await page.getByRole('button',{name:'Musical Parchment',exact:true}).click()
+ await page.getByLabel('Book title on certificate').fill('Piano Adventures Level 2B All-in-Two Edition: Technique & Performance')
+ await page.getByLabel('Awarded by',{exact:true}).fill('Mum and Dad')
+ await page.getByRole('button',{name:'Preview certificate',exact:true}).click()
+ await expect(page.getByRole('img',{name:/Certificate for Alexandra/})).toBeVisible()
+ await page.locator('.certificate-preview').screenshot({path:'test-results/parchment-preview.png'})
+})
+test('certificate save failure retains preview and a retry recovers a committed insert',async({page})=>{
+ const state=await fixtures(page);state.students.push({id:'student',display_name:'Mia'})
+ let attempt=0
+ await page.route('**/rest/v1/certificates*',async route=>{
+  if(route.request().method()!=='POST'){await route.fallback();return}
+  attempt++
+  if(attempt===1){await route.fulfill({status:400,json:{message:'Certificate save failed'}});return}
+  state.certificates.push(route.request().postDataJSON())
+  await route.fulfill({status:400,json:{message:'Response lost after saving'}})
+ })
+ await page.goto('/?view=certificates&award=new')
+ await page.getByLabel('Award title',{exact:true}).fill('Great Effort Today');await page.getByLabel('Awarded by',{exact:true}).fill('Dad')
+ await page.getByRole('button',{name:'Preview certificate',exact:true}).click();await page.getByRole('button',{name:'Issue certificate',exact:true}).click()
+ await expect(page.getByRole('alert')).toContainText('Certificate save failed')
+ await expect(page.getByRole('img',{name:/Great Effort Today/})).toBeVisible()
+ await page.getByRole('button',{name:'Issue certificate',exact:true}).click()
+ await expect(page.getByRole('button',{name:'Download PDF'})).toBeVisible();expect(state.certificates).toHaveLength(1)
 })
