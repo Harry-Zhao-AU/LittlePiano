@@ -2,6 +2,8 @@
 
 A Vue 3 + Vite + TypeScript app for one child using their adult’s Google session. Choose books, award separate 1–3 stars for Fluency, Dynamics, and Rhythm with optional feedback, and keep every assessment. No assessment is distinct from one star. Progress uses the **latest** assessment, not the highest score.
 
+Version 0.2 adds profile editing, book archiving, and assessment corrections. See the [implementation and release notes](NEXT_VERSION.md) and [upgrade instructions](#upgrading-to-v02).
+
 ## How to use the app
 
 Open the app URL supplied by the person who set it up. For local use, follow [Run locally](#run-locally) first. An adult signs in with Google; each account has one child profile. Use the same Google account each time to return to your saved books, assessments, and certificates.
@@ -47,7 +49,30 @@ flowchart TD
 | 2 | Almost there |
 | 3 | Well learned |
 
-Choose a score for **all three skills** before saving. **Not assessed** means no rating has been saved. Each save adds a new assessment to the history; it does not replace earlier ones. Progress uses the **latest** assessment, even if its scores are lower. A song counts as well learned when all three scores in its latest assessment are 3.
+Choose a score for **all three skills** before saving. **Not assessed** means no non-excluded assessment is available. Each **Save this moment** adds a new practice assessment. Progress uses the **latest non-excluded** assessment, even if its scores are lower. A song counts as well learned when all three scores in its latest assessment are 3.
+
+### Edit a profile, archive books, and correct mistakes
+
+On **My Books**, choose **Edit profile**, change the child's name, and select **Save changes**. **Cancel** leaves it unchanged. New certificate drafts use the new name; previously issued certificates retain their original details.
+
+Open a book and choose **Archive book**, then **Confirm archive**. It moves off the active shelf while retaining progress, assessments, and certificates. Find it under **Archived books**, open it, and choose **Restore book** to resume practice. Restore also works for previously selected editions no longer offered in the catalogue. Archived books remain readable; restore them before adding new practice or book-related awards. Existing certificates can still be downloaded or printed.
+
+```mermaid
+flowchart TD
+    History["Open a song: Your song story"] --> Action{"What needs changing?"}
+    Action -->|Wrong score or note| Edit["Correct assessment"]
+    Edit --> Save["Adjust scores or note, then Save correction"]
+    Action -->|Accidental entry| Exclude["Exclude from progress, then Confirm exclusion"]
+    Save --> Progress["Progress uses corrected values and the original practice date"]
+    Exclude --> Previous["Previous non-excluded assessment becomes current"]
+    Previous --> Restore["Restore assessment if needed"]
+    Progress --> Audit["View edit history to see the original and all revisions"]
+    Restore --> Audit
+```
+
+Corrections never change the original practice date. Fixing an older entry does not make it the latest. Excluded entries stay visible in history; if all entries for a song are excluded, it becomes **Not assessed**. These changes do not alter certificates.
+
+If a correction request fails, use **Retry correction** with the submitted details. If another session changed the entry, choose **Reload assessment**, review the updated values, and start the correction again. Use **Save this moment** for a new practice session.
 
 ### Create, download, and print certificates
 
@@ -105,7 +130,18 @@ Find these in your Supabase project’s connection/API settings. These two brows
 
 ## Database setup — review before applying
 
-Apply the four files in `supabase/migrations/` in filename order: `202609240001_initial.sql`, `202609240002_catalogue_selection.sql`, `202609250003_assessment_dimensions.sql`, then `202609250004_family_catalogue_sources.sql`. Skip any already applied. The third migration replaces the single overall score with three required scores. It expects no assessment records (as confirmed during design) and safely refuses to proceed if any exist; it never deletes them. The fourth permits explicit family-photo source identifiers alongside publisher HTTPS URLs; no photos are uploaded or made public. It targets Supabase PostgreSQL 15+ and relies on `auth.users`, `auth.uid()`, `anon` and `authenticated` supplied by Supabase.
+Apply all seven files in `supabase/migrations/` in filename order, from `202609240001_initial.sql` through `202609270007_everyday_management.sql`. Skip any already applied. Migration 003 replaces the original single score with three required scores. It is a historical design-stage migration that requires an empty assessments table and safely refuses to proceed otherwise; do not delete real records to bypass that check. Migration 004 permits family-photo source identifiers; 005 adds certificates; 006 adds Awesome awards; 007 adds profile edits, archiving, and assessment revisions while preserving existing records. The schema targets Supabase PostgreSQL 15+ and relies on `auth.users`, `auth.uid()`, `anon` and `authenticated` supplied by Supabase.
+
+### Upgrading to v0.2
+
+For an installation already on migration 006:
+
+1. Review and back up your existing database. Test `supabase/migrations/202609270007_everyday_management.sql` against a development database containing existing records.
+2. Apply migration 007 once using your normal SQL Editor or migration workflow, then deploy the matching v0.2 frontend. No catalogue reseed or new environment variables are required.
+3. Refresh existing browser sessions. Earlier frontends do not interpret corrections or archived shelves correctly; do not continue using them after enabling these features.
+4. Verify rename, archive/restore, correction/exclusion/restore, and certificate downloads. Repeat private-data checks with an unrelated account.
+
+Migration 007 has been tested locally, not applied to remote Supabase. The new frontend requires its functions and `effective_assessments` view. Once revisions or archives exist, use a compatible frontend rollback or a forward fix; reverting to v0.1 would display outdated progress. Do not delete revisions or archived selections as a rollback strategy.
 
 For your existing free project, **when you are ready to apply it yourself**:
 
@@ -131,11 +167,15 @@ There is one child per owner enforced by a unique constraint. Other authenticate
 
 ## Data and access rules
 
-All six base tables have RLS. Catalogue tables are authenticated-read-only. Students, selected books and assessments are scoped through the child’s owner. Browser clients have only the column-level INSERT grants needed by the app, plus SELECT; no UPDATE or DELETE grants. Ownership, book relationships, creation timestamps and assessment history cannot be rewritten through the client. Account removal and corrections are outside this MVP UI.
+All eight base tables have RLS. Catalogue tables are authenticated-read-only. Students, selected books, assessments, revisions, and certificates are scoped through the child's owner. Browser clients can update only `students.display_name` directly. Certificate owners can delete their certificates. Ownership, book relationships, original assessment values, and server timestamps cannot be rewritten through direct client updates. Account removal remains outside the UI.
 
-The assessment insert trigger rejects any song outside the selected book and stamps server time. Fluency, dynamics, and rhythm are each required database-constrained integers from 1 to 3. There is no combined score. A song is well learned only when all three latest scores are 3. History remains append-only for future assessments. A stable per-submission UUID prevents a repeated network submission from creating another row; the UI also disables saving while a request is running. New intentional assessments receive new IDs.
+The assessment insert triggers reject songs outside the selected book, require an active book, and stamp server time. Fluency, dynamics, and rhythm are each required database-constrained integers from 1 to 3. There is no combined score. A song is well learned only when all three latest non-excluded scores are 3. Original assessments and their correction history remain append-only. Stable submission UUIDs prevent retries from creating duplicate assessments or revisions.
 
-`latest_assessments` uses `security_invoker=true`, so base-table RLS still applies. The app derives latest ratings from its loaded history using the same timestamp-descending/ID-descending tie break. Queries are paginated to avoid silently truncating history at the API row limit. Supabase’s authenticated client performs every normal operation. See [Supabase RLS documentation](https://supabase.com/docs/guides/database/postgres/row-level-security).
+`effective_assessments` combines each original assessment with its latest revision. `latest_assessments` selects the newest non-excluded effective row per song and selected book. Both use `security_invoker=true`, so base-table RLS still applies. The app loads effective history and uses the same original timestamp-descending/ID-descending ordering. Queries are paginated to avoid silently truncating history at the API row limit.
+
+`set_book_archived` and `revise_assessment` are PostgreSQL functions called through `supabase.rpc(...)`. They use explicit ownership checks and restricted execution grants. The first changes only archive state; the second locks the assessment, checks its expected revision, and appends a validated snapshot. Matching UUID retries recover the saved revision; stale edits receive a conflict. Archive/restore and new book-related inserts lock the selected-book row to coordinate competing writes. A trigger applies the active-book requirement to direct API inserts too.
+
+Vue still uses the Supabase SDK and HTTPS API; no custom application server is added. See [Supabase RLS documentation](https://supabase.com/docs/guides/database/postgres/row-level-security) and [PostgREST function APIs](https://postgrest.org/en/latest/references/api/functions.html).
 
 ## Catalogue status
 
@@ -155,12 +195,12 @@ npm.cmd run test:db
 npm.cmd run test:browser
 ```
 
-- Unit suite: 26 cases for catalogue reconciliation, latest selection, ties, book/song isolation, unassessed vs one star, and input validation.
-- Database suite: 59 checks running the **actual migration and seed in PGlite (PostgreSQL WASM)**. Tests create isolated Auth-compatible users and JWT subject settings, then switch to actual database roles. They cover saving/reloading, newest rather than highest rating, repeated seeds, duplicate submissions, invalid/fractional stars, wrong-book songs, anonymous denial, unrelated-account denial, forged ownership, relationship changes, immutable history, forged timestamps, and the RLS-respecting latest view. Nothing is sent to a remote database.
-- Browser suite: six Playwright tests using isolated request fixtures. Tests cover sign-in gating; profile creation, book selection, double-submit protection, save/reload and history at 390/768/1280px; load errors; and save-error retry. It uses installed Google Chrome (`channel: 'chrome'`). To use Playwright Chromium, remove that setting and run `npx playwright install chromium`. Test fixtures are not proof of Supabase transport or OAuth correctness; the database suite separately exercises SQL security.
+- Unit suite: 43 cases covering catalogue metadata, certificates, latest selection, exclusions, archive filtering, and validation.
+- Database suite: 127 checks running the **actual migrations and seed in PGlite (PostgreSQL WASM)**. Tests switch between real database roles with isolated Auth-compatible users. Coverage includes populated-database upgrades, original/snapshot preservation, profile grants, archive guards, revision validation, idempotent retries, stale-version conflicts, exclusions/restores, and cross-account/anonymous denial. Nothing is sent to a remote database. PGlite does not verify simultaneous independent database sessions; verify competing archive/insert and correction requests against a local or staging PostgreSQL/Supabase server before production.
+- Browser suite: 17 Playwright tests using isolated request fixtures. They cover original flows at 390/768/1280px and v0.2 management at 390/1280px, including rename/cancel/errors, archive/restore, certificates, correction history, exclusion/restoration, duplicate clicks, ambiguous saves, and stale edits. It uses installed Google Chrome (`channel: 'chrome'`). To use Playwright Chromium, remove that setting and run `npx playwright install chromium`. Fixtures are not proof of live Supabase transport or OAuth correctness.
 - Browser screenshots are written under ignored `test-results/` for layout review. Fonts use optional Google Fonts with system fallbacks.
 
-On this Windows workspace, Playwright’s web-server teardown waited after the six test cases finished; stopping the Vite processes created by that test run allowed a clean exit (`6 passed`). If this occurs locally, stop only the test server on port 5174. You can also start a dedicated fixture-configured test server yourself and set `PLAYWRIGHT_REUSE_SERVER=1` for the test command. Never use real credentials on that fixture server.
+If Playwright's web-server teardown hangs on Windows, stop only the test server created by that run on port 5174. You can also start a dedicated fixture-configured test server yourself and set `PLAYWRIGHT_REUSE_SERVER=1` for the test command. Never use real credentials on that fixture server.
 
 **Still requires a configured Supabase environment:** a real Google consent/callback round trip; real PostgREST requests with project keys; session expiration/refresh; and cross-account checks against the deployed policies. Local SQL tests prove the migration behavior, not that the migration has been applied to your project. No remote migration, OAuth configuration, cloud assessment write or deployment has been performed.
 
@@ -174,6 +214,8 @@ No deployment has been made. When you instruct deployment: import the repository
 
 - `src/App.vue`: sign-in, first-use profile, shelf, song list and rating/history screens.
 - `src/lib.ts`: configured authenticated client, rating validation and latest selection.
+- `src/AssessmentEntry.vue`: corrections, exclusion/restoration, retry/conflict handling, and edit history.
+- `scripts/test-management.mjs`: v0.2 migration and permission checks, invoked by the database suite.
 - `supabase/migrations/`: versioned schema, permissions, RLS and integrity checks.
 - `catalogue/`: reviewed metadata and coverage notes.
 - `scripts/seed.mjs`: repeatable SQL generator; `supabase/seeds/catalogue.sql`: ready-to-review output.

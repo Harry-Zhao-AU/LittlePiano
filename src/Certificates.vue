@@ -9,7 +9,9 @@ const route=useRoute(),router=useRouter()
 const rows=ref<Certificate[]>([]),loading=ref(true),busy=ref(false),error=ref(''),notice=ref(''),preview=ref(false),confirmDelete=ref(false)
 let alive=true
 onUnmounted(()=>{alive=false})
-const availableBooks=computed(()=>props.books.filter(b=>props.selected.some(s=>s.student_id===props.student.id&&s.book_id===b.id)))
+const availableBooks=computed(()=>props.books.filter(b=>props.selected.some(s=>s.student_id===props.student.id&&s.book_id===b.id&&!s.archived_at)))
+const archivedRequest=computed(()=>props.selected.find(s=>s.book_id===route.query.awardBook&&s.archived_at))
+const openedArchived=computed(()=>props.selected.find(s=>s.book_id===opened.value?.book_id&&s.archived_at))
 function empty(kind:CertificateKind='special'):Certificate{return {id:crypto.randomUUID(),student_id:props.student.id,book_id:null,song_id:null,kind,template_id:kind==='book'?'piano-party':'little-star',template_version:1,child_name:props.student.display_name,title:'',message:'',awarded_by:'',awarded_on:localDate()}}
 const draft=ref<Certificate>(empty())
 const formOpen=computed(()=>route.query.award==='new')
@@ -93,16 +95,17 @@ async function exportPDF(c:Certificate,print=false){
   <template v-else-if="formOpen">
    <RouterLink :to="{query:{view:'certificates'}}" class="back">← My Certificates</RouterLink>
    <h1>{{preview?'Your certificate preview':'Celebrate a little pianist'}}</h1>
+   <p v-if="archivedRequest" class="message">This book is archived. <RouterLink :to="{query:{book:archivedRequest.id}}">Open the book and restore it</RouterLink> before issuing another award for it.</p>
    <template v-if="preview">
     <CertificatePreview :certificate="draft"/>
     <div class="certificate-actions"><button :disabled="busy" @click="issue">{{busy?'Issuing…':'Issue certificate'}}</button><button class="text-button" :disabled="busy" @click="edit">Edit details</button></div>
    </template>
-   <form v-else class="panel certificate-form" @submit.prevent="review">
+   <form v-else-if="!archivedRequest" class="panel certificate-form" @submit.prevent="review">
     <fieldset :disabled="busy">
      <label for="award-kind">Certificate type</label><select id="award-kind" v-model="draft.kind" @change="changeKind"><option value="book">Book completion</option><option value="special">Special achievement</option></select>
      <p class="subtle">You decide when to celebrate. Awards do not change song ratings.</p>
      <label for="award-book">{{draft.kind==='book'?'Book':'Related book (optional)'}}</label><select id="award-book" v-model="draft.book_id" :required="draft.kind==='book'" @change="changeBook"><option :value="null">Choose a book</option><option v-for="b in availableBooks" :value="b.id" :key="b.id">{{b.title}}</option></select>
-     <p v-if="draft.kind==='book'&&!availableBooks.length">Add a book to My Books first.</p>
+     <p v-if="draft.kind==='book'&&!availableBooks.length">Add or restore a book in My Books first.</p>
      <div v-if="draft.kind==='book'&&existing.length" class="message success">This book already has {{existing.length}} certificate(s). You can issue another.
       <RouterLink :to="{query:{view:'certificates',certificate:existing[0]!.id}}">View certificate</RouterLink>
      </div>
@@ -121,6 +124,7 @@ async function exportPDF(c:Certificate,print=false){
    <RouterLink :to="{query:{view:'certificates'}}" class="back">← My Certificates</RouterLink>
    <h1>{{opened.title}}</h1><p>For {{opened.child_name}} · {{opened.awarded_on}}</p>
    <CertificatePreview :certificate="opened"/>
+   <p v-if="openedArchived" class="message">This certificate is still saved. To issue another award for this archived book, <RouterLink :to="{query:{book:openedArchived.id}}">open the book and restore it</RouterLink> first.</p>
    <div class="certificate-actions"><button :disabled="busy" @click="exportPDF(opened)">{{busy?'Preparing…':'Download PDF'}}</button><button :disabled="busy" @click="exportPDF(opened,true)">Print</button><RouterLink :to="{query:{view:'certificates',award:'new',kind:opened.kind,awardBook:opened.book_id??undefined}}">Issue another</RouterLink><button class="text-button" :disabled="busy" @click="confirmDelete=true">Delete certificate</button></div>
    <div v-if="confirmDelete" class="panel" role="alert"><h2>Delete this certificate?</h2><p>This removes it from the gallery. Downloaded copies are unaffected.</p><div class="certificate-actions"><button :disabled="busy" @click="remove(opened)">Yes, delete certificate</button><button class="text-button" :disabled="busy" @click="confirmDelete=false">Keep certificate</button></div></div>
   </template>

@@ -7,6 +7,7 @@ import { catalogue as legacy } from '../catalogue/legacy-us.mjs'
 import { catalogue as previous } from '../catalogue/requested.mjs'
 import { catalogue as researched } from '../catalogue/expanded.mjs'
 import { catalogue } from '../catalogue/catalogue.mjs'
+import { testManagement } from './test-management.mjs'
 const db=new PGlite()
 await db.exec(`create role anon nologin; create role authenticated nologin;
  create schema auth; create table auth.users(id uuid primary key);
@@ -176,4 +177,5 @@ await db.exec(await readFile('supabase/migrations/202609260006_awesome_certifica
 await ok('Awesome award is accepted and old template stays valid',async()=>{
  for(const template of ['awesome','brave-performer'])await as('authenticated',A,awardSQL,[crypto.randomUUID(),student,null,null,'special',template,'Mia','Great effort','','Dad','2026-09-26'])
 })
+await testManagement({db,as,ok,denied,A,B,student,sb,song,third,insertDimensions,awardSQL,award})
 await db.close();console.log(`${count} PostgreSQL checks passed. No remote database contacted.`)

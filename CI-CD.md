@@ -21,6 +21,8 @@ Preview builds need Preview environment variables to connect to Supabase. Using 
 
 CI tests SQL locally; it never applies migrations or seeds to remote Supabase. Review and apply pending migrations before releasing app code that depends on them. Catalogue updates also require manually applying the reviewed generated seed. Never add administrative credentials to the frontend or this workflow.
 
+For v0.2, apply `supabase/migrations/202609270007_everyday_management.sql` after migration 006 before deploying the matching frontend. No reseed is required. Ask users to refresh existing sessions. Once corrections or archived books exist, v0.1 is not a compatible rollback: it reads original ratings and does not filter archived books. Preserve the new records and deploy a compatible fix instead. See the README upgrade instructions for verification and data preservation details.
+
 ## Failed releases
 
 Check GitHub Actions or Vercel logs, fix the branch and push again. Failed Vercel builds leave the previous successful deployment live. Revert a published code change with a new pull request; this does not revert database changes.
