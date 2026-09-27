@@ -2,6 +2,87 @@
 
 A Vue 3 + Vite + TypeScript app for one child using their adult’s Google session. Choose books, award separate 1–3 stars for Fluency, Dynamics, and Rhythm with optional feedback, and keep every assessment. No assessment is distinct from one star. Progress uses the **latest** assessment, not the highest score.
 
+## How to use the app
+
+Open the app URL supplied by the person who set it up. For local use, follow [Run locally](#run-locally) first. An adult signs in with Google; each account has one child profile. Use the same Google account each time to return to your saved books, assessments, and certificates.
+
+### Sign in and choose a book
+
+```mermaid
+flowchart TD
+    Open["Open Little Piano"] --> Login["Continue with Google"]
+    Login --> Profile{"Child profile already created?"}
+    Profile -->|No| Name["Enter a first name or nickname"]
+    Name --> Begin["Let's begin"]
+    Begin --> Shelf["My Books: your music shelf"]
+    Profile -->|Yes| Shelf
+    Shelf --> Choose["Choose your book's edition and language"]
+    Choose --> Add["Add to my shelf"]
+    Add --> Book["Open a book and choose a song"]
+    Shelf --> Existing["Open an existing book"]
+    Existing --> Book
+```
+
+Match the book to your printed copy. A **Partial song list** notice means progress covers only the listed entries.
+
+### Record practice and see progress
+
+```mermaid
+flowchart TD
+    Song["Choose a song"] --> Rate["Choose 1 to 3 stars for each skill: Fluency, Dynamics, Rhythm"]
+    Rate --> Note["Add an optional note"]
+    Note --> Save["Save this moment"]
+    Save --> Result{"Save succeeded?"}
+    Result -->|Yes| History["See the assessment in Your song story"]
+    Result -->|No| Retry["Read the error, check your connection, and retry saving"]
+    Retry --> Save
+    History --> Shelf["Return to the book or My Books to see progress"]
+    Shelf --> Practice["After more practice, choose a song and record a new assessment"]
+    Practice --> Song
+```
+
+| Stars | Meaning |
+| --- | --- |
+| 1 | Getting started |
+| 2 | Almost there |
+| 3 | Well learned |
+
+Choose a score for **all three skills** before saving. **Not assessed** means no rating has been saved. Each save adds a new assessment to the history; it does not replace earlier ones. Progress uses the **latest** assessment, even if its scores are lower. A song counts as well learned when all three scores in its latest assessment are 3.
+
+### Create, download, and print certificates
+
+```mermaid
+flowchart TD
+    Start{"What would you like to celebrate?"}
+    Start -->|Book completion| Book["Open a book and choose Give completion certificate"]
+    Start -->|Special achievement| Gallery["My Certificates: choose Give an award"]
+    Book --> Details["Choose a template and check the child's name, title, award date, and Awarded by"]
+    Gallery --> Special["Choose Special achievement; optionally add a message and related book or song"]
+    Special --> Details
+    Details --> Preview["Preview certificate"]
+    Preview --> Check{"Do the details look right?"}
+    Check -->|No| Edit["Edit details"]
+    Edit --> Details
+    Check -->|Yes| Issue["Issue certificate"]
+    Issue --> Saved["Saved in My Certificates"]
+    Saved --> PDF["Download PDF or Print"]
+```
+
+An adult decides when to give an award: **book completion certificates do not require any assessments or minimum scores**, and awards do not change song ratings. You can also choose **Book completion** from the **Give an award** form; add the book to **My Books** first.
+
+Previewing does not save an award; choose **Issue certificate** to save it. Return to **My Certificates** to reopen, download, or print it later. If printing is blocked, allow the new tab or download the PDF and print it from your PDF viewer. On a phone, use the viewer's Print/Share menu if needed.
+
+Saved certificate details cannot be edited. To correct a mistake, choose **Delete certificate**, confirm the deletion, and issue a new award. Downloaded copies are unaffected. Use **Issue another** when you intentionally want another award.
+
+### Returning later or getting help
+
+- Sign in with the same Google account to continue with your saved profile.
+- If loading fails, use **Reload data** or **Try again** after checking your connection.
+- If the app asks for a Supabase connection, the person setting it up needs to complete the setup sections below.
+- Choose **Sign out** when finished on a shared device.
+
+The diagrams above use Mermaid. View this README in a Markdown viewer with Mermaid support, such as GitHub, to see the flowcharts.
+
 ## Run locally
 
 Requires Node 22.12+ (tested with Node 24) and npm. In Windows PowerShell, use `npm.cmd` if script execution policy blocks `npm`.
